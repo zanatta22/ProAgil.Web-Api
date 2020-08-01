@@ -1,19 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace ProAgil.WebApi.Model
 {
-    public class Evento
+    public class Palestrante
     {
         public int Id { get; set; }
 
-        public string Local { get; set; }
+        public string Nome { get; set; }
 
-        public DateTime DataEvento { get; set; }
-
-        public string Tema { get; set; }
-
-        public int QtdPessoas { get; set; }
+        public string MiniCurriculo { get; set; }
 
         public string ImagemUrl { get; set; }
 
@@ -21,13 +17,7 @@ namespace ProAgil.WebApi.Model
 
         public string Email { get; set; }
 
-        public string Lote { get; set; }
-
-        public List<Lote> Lotes { get; set; }
-
         public List<RedeSocial> RedesSociais { get; set; }
-
         public List<PalestranteEvento> PalestranteEventos { get; set; }
-
     }
 }

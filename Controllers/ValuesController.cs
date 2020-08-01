@@ -42,7 +42,7 @@ namespace ProAgil.WebApi.Controllers
         {
             try
             {
-                var results = await _context.Eventos.FirstOrDefaultAsync(x => x.EventoId == id);
+                var results = await _context.Eventos.FirstOrDefaultAsync(x => x.Id == id);
 
                 return Ok(results);
             }
