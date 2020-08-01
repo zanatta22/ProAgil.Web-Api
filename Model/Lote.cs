@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProAgil.WebApi.Model
 {
@@ -8,6 +9,7 @@ namespace ProAgil.WebApi.Model
 
         public string Nome { get; set; }
 
+        [Column(TypeName = "money")]
         public decimal Preco { get; set; }
 
         public DateTime? DataInicio { get; set; }
