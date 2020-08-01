@@ -12,7 +12,7 @@ namespace ProAgil.WebApi.Model
         public string DataEvento { get; set; }
         public string Tema { get; set; }
         public int QtdPessoas { get; set; }
-        public string ImgUrl { get; set; }
+        public string ImagemUrl { get; set; }
         public string Lote { get; set; }
         
     }

@@ -16,7 +16,7 @@ namespace ProAgil.WebApi.Migrations
                     DataEvento = table.Column<string>(nullable: true),
                     Tema = table.Column<string>(nullable: true),
                     QtdPessoas = table.Column<int>(nullable: false),
-                    ImgUrl = table.Column<string>(nullable: true),
+                    ImagemUrl = table.Column<string>(nullable: true),
                     Lote = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

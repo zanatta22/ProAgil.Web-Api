@@ -28,7 +28,7 @@ namespace ProAgil.WebApi.Migrations
                     b.Property<string>("DataEvento")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImgUrl")
+                    b.Property<string>("ImagemUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Local")
