@@ -20,7 +20,7 @@ namespace ProAgil.WebApi.Model
 
         public int EventoId { get; set; }
 
-        public Evento Evento { get; set; }
+        public Evento Evento { get; }
 
     }
 }

@@ -21,8 +21,6 @@ namespace ProAgil.WebApi.Model
 
         public string Email { get; set; }
 
-        public string Lote { get; set; }
-
         public List<Lote> Lotes { get; set; }
 
         public List<RedeSocial> RedesSociais { get; set; }

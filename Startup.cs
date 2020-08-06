@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProAgil.WebApi.Data;
+using ProAgil.WebApi.Repository;
 
 namespace ProAgil.WebApi
 {
@@ -25,6 +26,8 @@ namespace ProAgil.WebApi
            
             services.AddDbContext<ProAgilContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+
+            services.AddScoped<IProAgilRepository, ProAgilRepository>();
 
             services.AddCors();
         }
