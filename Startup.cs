@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,8 @@ namespace ProAgil.WebApi
             options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
 
             services.AddScoped<IProAgilRepository, ProAgilRepository>();
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddCors();
         }

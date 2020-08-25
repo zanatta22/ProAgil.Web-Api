@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using ProAgil.WebApi.Dtos;
 using ProAgil.WebApi.Model;
 using ProAgil.WebApi.Repository;
 using System;
@@ -13,10 +15,12 @@ namespace ProAgil.WebApi.Controllers
     public class EventoController : ControllerBase
     {
         private readonly IProAgilRepository _repo;
+        private readonly IMapper _mapper;
 
-        public EventoController(IProAgilRepository repo)
+        public EventoController(IProAgilRepository repo, IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -24,13 +28,15 @@ namespace ProAgil.WebApi.Controllers
         {
             try
             {
-                var results = await _repo.GetAllEventoAsync(true);
+                var eventos = await _repo.GetAllEventoAsync(true);
+
+                var results = _mapper.Map<EventoDto[]>(eventos);
 
                 return Ok(results);
             }
-            catch (Exception)
+            catch (SystemException ex)
             {
-                return StatusCode(500, "Banco de dados falhou");
+                return StatusCode(500, $"Banco de dados falhou {ex.Message}");
             }
 
         }
@@ -40,11 +46,13 @@ namespace ProAgil.WebApi.Controllers
         {
             try
             {
-                var results = await _repo.GetEventoAsyncById(EventoId, true);
+                var evento = await _repo.GetEventoAsyncById(EventoId, true);
+
+                var results = _mapper.Map<EventoDto>(evento);
 
                 return Ok(results);
             }
-            catch (Exception)
+            catch (SystemException)
             {
                 return StatusCode(500, "Banco de dados falhou");
             }
@@ -56,7 +64,9 @@ namespace ProAgil.WebApi.Controllers
         {
             try
             {
-                var results = await _repo.GetAllEventoAsyncByTema(Tema, true);
+                var eventos = await _repo.GetAllEventoAsyncByTema(Tema, true);
+
+                var results = _mapper.Map<EventoDto[]>(eventos);
 
                 return Ok(results);
             }
@@ -68,15 +78,17 @@ namespace ProAgil.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Evento model)
+        public async Task<IActionResult> Post(EventoDto model)
         {
             try
             {
-                _repo.Add(model);
+                var evento = _mapper.Map<Evento>(model);
+
+                _repo.Add(evento);
 
                 if(await _repo.SaveChangesAsync())
                 {
-                    return Created($"/api/evento/{model.Id}", model);
+                    return Created($"/api/evento/{model.Id}", _mapper.Map<EventoDto>(evento));
                 }
 
             }
@@ -90,7 +102,7 @@ namespace ProAgil.WebApi.Controllers
         }
 
         [HttpPut("{EventoId}")]
-        public async Task<IActionResult> Put(int EventoId, Evento model)
+        public async Task<IActionResult> Put(int EventoId, EventoDto model)
         {
             try
             {
@@ -98,11 +110,13 @@ namespace ProAgil.WebApi.Controllers
 
                 if (evento == null) return NotFound();
 
-                _repo.Update(model);
+                _mapper.Map(model, evento);
+
+                _repo.Update(evento);
 
                 if (await _repo.SaveChangesAsync())
                 {
-                    return Created($"/api/evento/{model.Id}", model);
+                    return Created($"/api/evento/{model.Id}", _mapper.Map<EventoDto>(model));
                 }
 
             }
