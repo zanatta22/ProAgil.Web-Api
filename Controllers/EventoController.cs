@@ -4,9 +4,11 @@ using ProAgil.WebApi.Dtos;
 using ProAgil.WebApi.Model;
 using ProAgil.WebApi.Repository;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
 
 namespace ProAgil.WebApi.Controllers
 {
@@ -33,6 +35,36 @@ namespace ProAgil.WebApi.Controllers
                 var results = _mapper.Map<EventoDto[]>(eventos);
 
                 return Ok(results);
+            }
+            catch (SystemException ex)
+            {
+                return StatusCode(500, $"Banco de dados falhou {ex.Message}");
+            }
+
+        }
+
+        //Updload da imagenw
+        [HttpPost("upload")]
+        public async Task<IActionResult> upload()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                var folderName = Path.Combine("Resources", "Images");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                if(file.Length > 0)
+                {
+                    var filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
+                    var fullPath = Path.Combine(pathToSave, filename.Replace("\"", " ").Trim());
+
+                    using(var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                       await file.CopyToAsync(stream);
+                    }
+                }
+
+                return Ok();
             }
             catch (SystemException ex)
             {
